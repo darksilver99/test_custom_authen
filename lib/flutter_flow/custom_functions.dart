@@ -11,16 +11,16 @@ import 'uploaded_file.dart';
 import '/backend/schema/structs/index.dart';
 import '/auth/custom_auth/auth_util.dart';
 
-UserDataStruct? getUserData(
+UserDataStruct getUserData(
   String username,
   String password,
   List<UserDataStruct> userList,
 ) {
   if (userList.isEmpty) {
-    return null;
+    return UserDataStruct();
   }
   return userList.firstWhere(
     (user) => user.username == username && user.password == password,
-    orElse: () => null,
+    orElse: () => UserDataStruct(),
   );
 }
