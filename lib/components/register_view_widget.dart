@@ -448,7 +448,7 @@ class _RegisterViewWidgetState extends State<RegisterViewWidget> {
                                     _model.tmpUser = FFAppState().user.last;
                                     FFAppState().addToUser(UserDataStruct(
                                       id: _model.tmpUser!.id + 1,
-                                      username: _model.textController1.text,
+                                      username: _model.textController2.text,
                                       password: _model.textController3.text,
                                       displayName: _model.textController1.text,
                                     ));
@@ -456,7 +456,7 @@ class _RegisterViewWidgetState extends State<RegisterViewWidget> {
                                 } else {
                                   FFAppState().addToUser(UserDataStruct(
                                     id: 1,
-                                    username: _model.textController1.text,
+                                    username: _model.textController2.text,
                                     password: _model.textController3.text,
                                     displayName: _model.textController1.text,
                                   ));
