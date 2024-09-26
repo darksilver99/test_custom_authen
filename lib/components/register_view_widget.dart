@@ -477,6 +477,7 @@ class _RegisterViewWidgetState extends State<RegisterViewWidget> {
                                 );
 
                                 FFAppState().update(() {});
+                                Navigator.pop(context);
                               } else {
                                 await showDialog(
                                   context: context,
