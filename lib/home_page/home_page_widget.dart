@@ -427,7 +427,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     _model.textController1.text,
                                                     _model.textController2.text,
                                                     FFAppState().user.toList());
-                                            if (_model.tmpUser?.id != null) {
+                                            if (_model.tmpUser?.id != 0) {
                                               GoRouter.of(context)
                                                   .prepareAuthEvent();
                                               await authManager.signIn(

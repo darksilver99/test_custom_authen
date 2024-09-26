@@ -24,3 +24,10 @@ UserDataStruct getUserData(
     orElse: () => UserDataStruct(),
   );
 }
+
+bool checkIsDuplicateUsername(
+  String username,
+  List<UserDataStruct> userList,
+) {
+  return userList.any((user) => user.username == username);
+}

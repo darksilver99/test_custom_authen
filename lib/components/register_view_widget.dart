@@ -421,62 +421,79 @@ class _RegisterViewWidgetState extends State<RegisterViewWidget> {
                                   !_model.formKey.currentState!.validate()) {
                                 return;
                               }
-                              if (FFAppState().user.length > 0) {
-                                _model.tmpUser = functions.getUserData(
-                                    _model.textController2.text,
-                                    _model.textController3.text,
-                                    FFAppState().user.toList());
-                                if (_model.tmpUser?.id != null) {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text(
-                                            'have it in system use another username bitch.'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                  return;
+                              if (_model.textController3.text ==
+                                  _model.textController4.text) {
+                                if (FFAppState().user.length > 0) {
+                                  if (functions.checkIsDuplicateUsername(
+                                      _model.textController2.text,
+                                      FFAppState().user.toList())) {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              'have it in system use another username bitch.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  alertDialogContext),
+                                              child: Text('Ok'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    return;
+                                  } else {
+                                    _model.tmpUser = FFAppState().user.last;
+                                    FFAppState().addToUser(UserDataStruct(
+                                      id: _model.tmpUser!.id + 1,
+                                      username: _model.textController1.text,
+                                      password: _model.textController3.text,
+                                      displayName: _model.textController1.text,
+                                    ));
+                                  }
                                 } else {
-                                  _model.tmpUser = FFAppState().user.last;
                                   FFAppState().addToUser(UserDataStruct(
-                                    id: _model.tmpUser!.id + 1,
+                                    id: 1,
                                     username: _model.textController1.text,
                                     password: _model.textController3.text,
                                     displayName: _model.textController1.text,
                                   ));
                                 }
+
+                                _model.tmpUser = functions.getUserData(
+                                    _model.textController2.text,
+                                    _model.textController3.text,
+                                    FFAppState().user.toList());
+                                GoRouter.of(context).prepareAuthEvent();
+                                await authManager.signIn(
+                                  userData: UserDataStruct(
+                                    id: _model.tmpUser?.id,
+                                    username: _model.tmpUser?.username,
+                                    password: _model.tmpUser?.password,
+                                    displayName: _model.tmpUser?.displayName,
+                                  ),
+                                );
+
+                                FFAppState().update(() {});
                               } else {
-                                FFAppState().addToUser(UserDataStruct(
-                                  id: 1,
-                                  username: _model.textController1.text,
-                                  password: _model.textController3.text,
-                                  displayName: _model.textController1.text,
-                                ));
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      title: Text('Passwords do not math.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               }
-
-                              _model.tmpUser = functions.getUserData(
-                                  _model.textController2.text,
-                                  _model.textController3.text,
-                                  FFAppState().user.toList());
-                              GoRouter.of(context).prepareAuthEvent();
-                              await authManager.signIn(
-                                userData: UserDataStruct(
-                                  id: _model.tmpUser?.id,
-                                  username: _model.tmpUser?.username,
-                                  password: _model.tmpUser?.password,
-                                  displayName: _model.tmpUser?.displayName,
-                                ),
-                              );
-
-                              FFAppState().update(() {});
                             },
                             text: 'Save',
                             options: FFButtonOptions(
