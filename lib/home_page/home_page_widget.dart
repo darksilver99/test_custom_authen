@@ -441,6 +441,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       .tmpUser?.displayName,
                                                 ),
                                               );
+                                              safeSetState(() {
+                                                _model.textController1?.clear();
+                                                _model.textController2?.clear();
+                                              });
 
                                               FFAppState().update(() {});
                                             } else {
